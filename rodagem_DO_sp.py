@@ -241,9 +241,10 @@ def remover_caracteres_de_controle(texto):
 #########################################################################################
 # --- 3. CARREGAMENTO DAS REGRAS DE FILTRAGEM (Seu "PASSO 8") ---
 print("\n--- 3. Carregando regras de filtragem do CSV ---")
-#NOME_ARQUIVO_REGRAS = (r"C:\Users\gabriel.croquer\Desktop\DIARIO_IA_TREINAMENTO\Mineração de texto -Diário Oficial - Página1.csv") # SEU CAMINHO PARA O CSV
 
-NOME_ARQUIVO_REGRAS = (r"C:\Users\gabriel.croquer\Desktop\DIARIO_IA_TREINAMENTO\regras_atualizadas.csv") # SEU CAMINHO PARA O CSV
+
+NOME_ARQUIVO_REGRAS = "regras_atualizadas.csv"
+
 
 
 COLUNA_TERMO_FRASE_CSV = 'Termo/Frase/Padrão'
