@@ -1,0 +1,46 @@
+# Nome do fluxo de trabalho
+name: Rodagem Diaria do Agente de IA
+
+# Gatilho (trigger)
+on:
+  schedule:
+    # Roda todo dia às 9:15 AM no fuso horário de São Paulo (12:15 UTC).
+    - cron: '15 12 * * *'
+  # Gatilho manual
+  workflow_dispatch:
+
+jobs:
+  rodar-analise-diario:
+    # Máquina virtual
+    runs-on: ubuntu-latest
+
+    # Etapas do trabalho
+    steps:
+      # 1. Baixar o código
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      # 2. Configurar Python
+      - name: Configurar Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      # 3. Instalar dependências
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Baixar modelos de NLP
+      - name: Baixar modelos de NLP (NLTK e spaCy)
+        run: |
+          python -m nltk.downloader punkt
+          python -m nltk.downloader stopwords
+          python -m spacy download pt_core_news_sm
+
+      # 5. Executar o script principal
+      - name: Executar o script de análise do Diário Oficial
+        # A seção 'env:' foi removida.
+        # O script agora usará as credenciais que estão escritas diretamente nele.
+        run: python rodagem_DO_sp.py
