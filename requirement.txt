@@ -1,0 +1,9 @@
+pandas
+requests
+beautifulsoup4
+google-generativeai
+pypdf2
+pdfplumber
+nltk
+spacy==3.7.2 # Fixar a versão do spacy é uma boa prática
+python-dotenv
