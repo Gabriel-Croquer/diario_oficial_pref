@@ -623,18 +623,17 @@ Envie esta mensagem como e-mail final, não coloque um campo a ser preenchido co
 # --- Configuração do E-mail (Como você forneceu) ---
 EMAIL_REMETENTE = "gcroquer@PREFEITURA.SP.GOV.BR"
 EMAIL_SENHA = "Poneialado2499!" #"Prodam10"  # !! ATENÇÃO COM A SENHA NO CÓDIGO !!
-EMAIL_DESTINATARIO = ["gabriel.croquer@fsbcomunicacao.com.br"]
-#,
-##                      "vitor.marques@fsbcomunicacao.com.br",
-#                     "jacqueline.matoso@fsbcomunicacao.com.br",
-#                     "vital.neto@fsbcomunicacao.com.br",
-#                     "newton.palma@fsb.com.br",
-#                     "caroline.valente@fsbcomunicacao.com.br",
-#                     "brsouza@prefeitura.sp.gov.br",
-#                     "acsouza@prefeitura.sp.gov.br",
-#                     "fbonadirman@prefeitura.sp.gov.br",
-#                     "jessica.mendes@fsbcomunicacao.com.br",
-#                     "silvia.amorim@fsbcomunicacao.com.br"]
+EMAIL_DESTINATARIO = ["gabriel.croquer@fsbcomunicacao.com.br",
+                      "vitor.marques@fsbcomunicacao.com.br",
+                      "jacqueline.matoso@fsbcomunicacao.com.br",
+                      "vital.neto@fsbcomunicacao.com.br",
+                      "newton.palma@fsb.com.br",
+                      "caroline.valente@fsbcomunicacao.com.br",
+                      "brsouza@prefeitura.sp.gov.br",
+                      "acsouza@prefeitura.sp.gov.br",
+                      "fbonadirman@prefeitura.sp.gov.br",
+                      "jessica.mendes@fsbcomunicacao.com.br",
+                      "silvia.amorim@fsbcomunicacao.com.br"]
 # ])
 SMTP_SERVIDOR = "smtp.office365.com"
 SMTP_PORTA = 587
