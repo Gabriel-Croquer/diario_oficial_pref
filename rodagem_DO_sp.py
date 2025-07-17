@@ -23,11 +23,8 @@ import unicodedata
 
 def buscar_e_processar_diario_oficial(data=None):
     """
-    Busca o Diário Oficial em formato JSON de uma data específica,
-    limpa o JSON mal-formado, processa o HTML e retorna um DataFrame.
-
-    :param data: Objeto datetime.date. Se for None, usa a data de hoje.
-    :return: DataFrame com os dados do Diário Oficial ou None se falhar.
+    Busca o Diário Oficial de SP em formato JSON (lista de objetos),
+    processa o HTML e retorna um DataFrame.
     """
     if data is None:
         data = datetime.now()
@@ -38,33 +35,17 @@ def buscar_e_processar_diario_oficial(data=None):
     print(f"Buscando dados em: {url}\n")
     
     try:
-        response = requests.get(url, timeout=60) # Aumentei o timeout para arquivos grandes
+        response = requests.get(url, timeout=90)
         response.raise_for_status()
         
-        # ### A NOSSA MÁGICA ANTI-ERRO ###
-        # Em vez de confiar no .json(), lemos o texto bruto para limpá-lo primeiro.
-        raw_text = response.text
-        
-        # Encontra o primeiro '{' e o último '}' para isolar o JSON válido
-        # e ignorar qualquer lixo antes ou depois.
-        first_brace = raw_text.find('{')
-        last_brace = raw_text.rfind('}')
-        
-        if first_brace == -1 or last_brace == -1:
-            print("❌ ERRO: Não foi possível encontrar um objeto JSON válido no texto recebido.")
-            return None
-            
-        # Fatiamos o texto para pegar apenas o JSON que nos interessa
-        clean_json_text = raw_text[first_brace : last_brace + 1]
-        
-        # Agora, carregamos o JSON limpo
-        dados_json = json.loads(clean_json_text)
-        # #################################
+        # --- LÓGICA CORRIGIDA E SIMPLIFICADA ---
+        # Como o JSON agora é uma lista válida, podemos usar o método .json()
+        # que é mais eficiente e seguro.
+        lista_de_atos = response.json()
+        # ######################################
 
-        lista_de_atos = dados_json.get('edicao', [])
-        
-        if not lista_de_atos:
-            print("⚠️ AVISO: Nenhum ato encontrado na edição de hoje.")
+        if not isinstance(lista_de_atos, list) or not lista_de_atos:
+            print("AVISO: Nenhum ato (ou uma estrutura de dados inesperada) foi encontrado na edição de hoje.")
             return None
             
         print(f"✅ Sucesso! {len(lista_de_atos)} publicações encontradas no JSON.")
@@ -79,22 +60,23 @@ def buscar_e_processar_diario_oficial(data=None):
             soup = BeautifulSoup(texto_decodificado, 'html.parser')
             return soup.get_text(separator=' ', strip=True)
 
-        df_diario.loc[:, 'texto_limpo'] = df_diario['conteudo'].apply(limpar_html)
+        # Aplica a limpeza na coluna 'conteudo' para criar a 'texto_limpo'
+        df_diario['texto_limpo'] = df_diario['conteudo'].apply(limpar_html)
         
         print("✅ Coluna 'texto_limpo' criada com sucesso.")
         
         return df_diario
 
     except requests.exceptions.HTTPError as http_err:
-        print(f"❌ ERRO HTTP: Não foi possível encontrar o diário para a data de hoje. O servidor retornou: {http_err}")
+        print(f"ERRO HTTP: Não foi possível encontrar o diário para a data de hoje. O servidor retornou: {http_err}")
         return None
     except json.JSONDecodeError as json_err:
-        print(f"❌ ERRO DE JSON mesmo após a limpeza. O formato pode estar profundamente corrompido: {json_err}")
+        print(f"ERRO DE JSON. O formato pode estar corrompido: {json_err}")
         return None
     except Exception as e:
-        print(f"❌ Ocorreu um erro inesperado: {e}")
+        print(f"Ocorreu um erro inesperado: {e}")
         return None
-
+        
 # --- Execução do Código ---
 if __name__ == "__main__":
     
