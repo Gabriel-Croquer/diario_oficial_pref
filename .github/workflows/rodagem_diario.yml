@@ -4,7 +4,7 @@ name: Rodagem Diaria do Agente de IA
 on:
   schedule:
     # Roda de segunda a sexta-feira às 10:15 AM no fuso horário de São Paulo (13:15 UTC).
-    - cron: '15 13 * * 1-5'
+    - cron: '15 12 * * 1-5'
   # Gatilho manual
   workflow_dispatch:
 jobs:
